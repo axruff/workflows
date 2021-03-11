@@ -160,13 +160,11 @@ workflow {
 
     data = Channel.fromPath(params.inputDir + '/*.txt' )
     //data = Channel.from(params.datasets)
-  
-    //test(data) |  view
+
     //prepare(data)
     //prepare(data) | seg1
     prepare(data) | (seg1 & seg2 & seg3)
 }
 
 
-//target.subscribe {"message: $it" }
 
