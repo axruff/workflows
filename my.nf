@@ -40,25 +40,31 @@ process prepare {
 
 	script:
 
-	"""
-    #!/usr/bin/python
+    if(exp == 'exp1')
 
-    import sys
-    sys.path.append('${launchDir}')
-    from prepare import prepare_dataset
+        """
+        #!/usr/bin/python
+
+        import sys
+        sys.path.append('${launchDir}')
+        from prepare import prepare_dataset
+        
+        #print('${dataset}')
+        #print('${launchDir}')
+
+        prepare_dataset('${dataset}', '${params.inputDir}', '${params.outputDir}', '${params.proc_name}')
+        #print('${dataset}')
+
+        #f = open('proc.txt', 'w')
+        #f.write('')
+        #f.close()
+        """
+
+    else if (exp == 'exp2')
     
-    #print('${dataset}')
-    #print('${launchDir}')
-
-    prepare_dataset('${dataset}', '${params.inputDir}', '${params.outputDir}', '${params.proc_name}')
-    #print('${dataset}')
-
-    #f = open('proc.txt', 'w')
-    #f.write('')
-    #f.close()
-
-
-    """
+        """
+        # Do some other preprocessing for Experiment #2
+        """
 }
 
 
@@ -81,8 +87,20 @@ process seg1 {
     sys.path.append('$launchDir')
     from process import process_dataset
 
-    process_dataset('${dataset}' , '${params.procDir}', '${params.outputDir}', '${params.seg_name}', method='1')
-    #print(r)
+    #---------------------------
+    # Settings
+    #---------------------------
+    params_dict = {}
+    params_dict['inputDir']  = '${params.procDir}'
+    params_dict['outputDir'] = '${params.outputDir}'
+    params_dict['prefix']    = '${params.proc_name}'
+    params_dict['postfix']   = '${params.seg_name}'
+    params_dict['method']    = '1' 
+    #---------------------------
+
+    process_dataset('${dataset}', params_dict)
+    
+    print('Hi from method 1')
 
     """
 
@@ -112,12 +130,22 @@ process seg2 {
     from process import process_dataset
     import random
 
-    process_dataset('${dataset}' , '${params.procDir}', '${params.outputDir}', '${params.seg_name}', method='2')
+    #---------------------------
+    # Settings
+    #---------------------------
+    params_dict = {}
+    params_dict['inputDir']  = '${params.procDir}'
+    params_dict['outputDir'] = '${params.outputDir}'
+    params_dict['prefix']    = '${params.proc_name}'
+    params_dict['postfix']   = '${params.seg_name}'
+    params_dict['method']    = '2' 
+    #---------------------------
+
+    process_dataset('${dataset}', params_dict)
     #print(r)
 
-
     # Testing error strategy
-    try_error = True
+    try_error = False
 
     v = 0
 
@@ -148,8 +176,20 @@ process seg3 {
     sys.path.append('$launchDir')
     from process import process_dataset
 
-    process_dataset('${dataset}' , '${params.procDir}', '${params.outputDir}', '${params.seg_name}', method='3')
-    print('Hi!')
+    #---------------------------
+    # Settings
+    #---------------------------
+    params_dict = {}
+    params_dict['inputDir']  = '${params.procDir}'
+    params_dict['outputDir'] = '${params.outputDir}'
+    params_dict['prefix']    = '${params.proc_name}'
+    params_dict['postfix']   = '${params.seg_name}'
+    params_dict['method']    = '3' 
+    #---------------------------
+
+    process_dataset('${dataset}', params_dict)
+
+    print('Ho from method 3')
 
     """
 
@@ -162,8 +202,8 @@ workflow {
     //data = Channel.from(params.datasets)
 
     //prepare(data)
-    //prepare(data) | seg1
-    prepare(data) | (seg1 & seg2 & seg3)
+    prepare(data) | seg1
+    //prepare(data) | (seg1 & seg2 & seg3)
 }
 
 
