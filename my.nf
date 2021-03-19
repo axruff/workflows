@@ -4,7 +4,9 @@ nextflow.enable.dsl=2
 exp = 'exp1'
 
 
-params.rootDir = '/home/ws/fe0968/pipe/data/'
+params.rootDir = "c:\\Users\\fe0968\\Documents\\workflows\\data\\"
+
+//params.rootDir = '/home/ws/fe0968/pipe/data/'
 //params.rootDir = '/Users/aleksejersov/projects/pipe/data/'
 
 
