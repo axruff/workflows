@@ -1,7 +1,7 @@
 //nextflow.enable.dsl=2
 
 
-params.str = 'Hello world!'
+params.str = 'Hello world! Test'
 
 process splitLetters {
 
