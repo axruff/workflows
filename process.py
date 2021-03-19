@@ -4,12 +4,18 @@ import random
 def read(path):
 	return 0
 
-def process_dataset(dataset, inputPath='', outputPath='', postfix='seg', method = '1'):
+def process_dataset(dataset, params):
+
+	# Get parameters
+	inputPath = params['inputDir']
+	outputPath = params['outputDir']
+	prefix = params['prefix']
+	postfix = params['postfix']
+	method = params['method']
 
 	# Open
 	dataset = dataset.split('/')[-1].split('.')[0]
-	f = open(inputPath + '/' + dataset+ '_proc' + ".txt", "r")
-	#f = open(dataset, "r")
+	f = open(inputPath + '/' + dataset + '_' + prefix + ".txt", "r")
 	content = f.read().rstrip()
 	f.close()
 
@@ -23,8 +29,6 @@ def process_dataset(dataset, inputPath='', outputPath='', postfix='seg', method 
 	f = open(outputPath + '/' + dataset + "_" + postfix +  method +  ".txt", "w")
 	f.write(content)
 	f.close()
-
-	#return " ##########  processing is done for dataset: " + dataset
 
 
 
